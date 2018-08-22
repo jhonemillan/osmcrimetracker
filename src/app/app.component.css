@@ -7,4 +7,8 @@
     height: 100%;
     width: 100%;
   }
+
+  .rightalign{
+    flex: 1 1 auto;
+  }
   
