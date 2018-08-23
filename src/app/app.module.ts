@@ -5,17 +5,25 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import { SocialauthComponent } from './components/socialauth/socialauth.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SocialauthComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
-    LeafletModule.forRoot()
+    MatDialogModule,
+    LeafletModule.forRoot(),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
