@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
   ngOnInit(){}
 
   clickLogin(){
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/login');   
   }
 }
