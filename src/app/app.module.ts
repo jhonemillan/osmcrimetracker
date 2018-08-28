@@ -10,6 +10,7 @@ import { SocialauthComponent } from './components/socialauth/socialauth.componen
 import { AppRoutingModule } from '../app-routing.module';
 import { MapComponent } from './components/map/map.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

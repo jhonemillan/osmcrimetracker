@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare let L;
@@ -13,13 +14,27 @@ export class MapComponent implements OnInit {
   title = 'app';
   latitude = 3.401769;
   longitude = -76.539840;
+  id: number;
+  email: string;
   myIcon = L.icon({
     iconUrl: 'assets/leaflet/images/marker-icon.png',
     shadowUrl: '../assets/leaflet/images/marker-shadow.png'
   });
   map;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef,
+              private activated:  ActivatedRoute) {
+               
+                this.activated.queryParams.subscribe(params=>{
+                  
+                  this.id = params['gId'];
+                  if (this.id != null) {
+                    localStorage.setItem('gId', JSON.stringify(this.id));
+                  }else{
+                    this.id = JSON.parse(localStorage.getItem('gId'));
+                  }
+                })
+              }
 
   ngOnInit() {
 
