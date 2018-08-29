@@ -14,11 +14,13 @@ export class MapGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+      debugger;
       if (localStorage.getItem('gId')) {
+
         return true;
       }
 
-      this.router.navigate(['/home'],{ queryParams: { returnUrl: state.url}}); 
+      // this.router.navigate(['/']); 
       return false;
   }
 }

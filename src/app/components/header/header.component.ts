@@ -14,7 +14,11 @@ export class HeaderComponent implements OnInit {
   }
 
   clickLogin(){
-    this.router.navigateByUrl('/login');   
+    this.router.navigateByUrl('/login');
+  }
+
+  clickLogout(){
+    this.router.navigateByUrl('/logout');
   }
 
 }

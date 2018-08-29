@@ -8,9 +8,10 @@ import { HomeComponent } from './app/components/home/home.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full', },
-  { path: 'login', component: SocialauthComponent},
-  { path: 'map', component: MapComponent, canActivate: [MapGuard]},
+  { path: '', component: HomeComponent },
+  { path: 'login', component: SocialauthComponent},  
+  { path: 'map', component: MapComponent},
+  { path: 'map/:id', component: MapComponent},
   
 ]
 

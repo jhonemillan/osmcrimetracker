@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 declare let L;
@@ -22,7 +23,7 @@ export class MapComponent implements OnInit {
   });
   map;
 
-  constructor(private changeDetector: ChangeDetectorRef,
+  constructor(private location: Location,
               private activated:  ActivatedRoute) {
                
                 this.activated.queryParams.subscribe(params=>{
@@ -33,7 +34,7 @@ export class MapComponent implements OnInit {
                   }else{
                     this.id = JSON.parse(localStorage.getItem('gId'));
                   }
-                })
+                });
               }
 
   ngOnInit() {
@@ -73,6 +74,10 @@ onClickMap(e) {
   const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.myIcon});
   marker1.addTo(this.map);
   console.log('clic', e.latlng);
+}
+
+getUser(){
+
 }
 
 
