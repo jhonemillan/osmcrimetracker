@@ -4,12 +4,13 @@ import { SocialauthComponent } from './app/components/socialauth/socialauth.comp
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './app/components/home/home.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full', },
+  { path: '', redirectTo: '/home', pathMatch: 'full', },
   { path: 'login', component: SocialauthComponent},
-  { path: 'map', component: MapComponent},
+  { path: 'map', component: MapComponent, canActivate: [MapGuard]},
   
 ]
 

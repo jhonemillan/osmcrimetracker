@@ -9,13 +9,17 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { SocialauthComponent } from './components/socialauth/socialauth.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { MapComponent } from './components/map/map.component';
+import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SocialauthComponent,
-    MapComponent
+    MapComponent,
+    HomeComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
