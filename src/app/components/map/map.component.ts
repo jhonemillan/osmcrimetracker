@@ -24,17 +24,9 @@ export class MapComponent implements OnInit {
   map;
 
   constructor(private location: Location,
-              private activated:  ActivatedRoute) {
-               
-                this.activated.queryParams.subscribe(params=>{
-                  
-                  this.id = params['gId'];
-                  if (this.id != null) {
-                    localStorage.setItem('gId', JSON.stringify(this.id));
-                  }else{
-                    this.id = JSON.parse(localStorage.getItem('gId'));
-                  }
-                });
+              private route:  ActivatedRoute) {
+               this.getUser();
+                
               }
 
   ngOnInit() {
@@ -77,7 +69,13 @@ onClickMap(e) {
 }
 
 getUser(){
-
+  this.id = +this.route.snapshot.paramMap.get('id');
+    
+  if (this.id != null) {
+      localStorage.setItem('id', JSON.stringify(this.id));
+    }else{
+      this.id = JSON.parse(localStorage.getItem('id'));
+    }
 }
 
 
