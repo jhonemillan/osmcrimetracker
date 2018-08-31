@@ -10,7 +10,7 @@ export class AuthenticationService {
 
   private loggedIn = new BehaviorSubject<boolean>(false);
 
-  isLoggedIn(){
+  get isLoggedIn(){
     return this.loggedIn.asObservable();
   }
 

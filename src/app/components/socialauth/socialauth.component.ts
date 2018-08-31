@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,13 +9,13 @@ import { Router } from '@angular/router';
 })
 export class SocialauthComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private auth: AuthenticationService) { }
 
   ngOnInit() {
   }
 
-  login(){
-    //this.router.navigate(['http://localhost:3000/auth/google']);
+  login(){    
     window.location.href = 'http://localhost:3000/auth/google';
   }
   

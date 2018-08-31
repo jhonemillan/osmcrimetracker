@@ -10,24 +10,27 @@ import { Observable, of } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
-
+  enabled;
   constructor(private router: Router,
               private auth: AuthenticationService) { }
 
   ngOnInit() {
-    
+    this.isLoggedIn$ = this.auth.isLoggedIn;
+    this.isLoggedIn$.subscribe((data)=>{
+      this.enabled = data;
+      console.log('result', data);
+    })
   }  
 
   clickLogin(){
+    
     this.router.navigateByUrl('/login');
-    this.auth.login();
   }
 
-  clickLogout(){
-    console.log('d')    
+  clickLogout(){    
     window.localStorage.removeItem('id');
-    this.router.navigateByUrl('/');
     this.auth.logout();
+    this.router.navigateByUrl('/');
   }
 
 }

@@ -1,7 +1,7 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
 
 declare let L;
 
@@ -24,6 +24,7 @@ export class MapComponent implements OnInit {
   map;
 
   constructor(private location: Location,
+              private auth: AuthenticationService,
               private route:  ActivatedRoute) {
                this.getUser();
                 
@@ -49,6 +50,8 @@ export class MapComponent implements OnInit {
         this.map.on('click', (e) => {
           this.onClickMap(e);
         });
+
+        this.auth.login();        
   }
 
   onLocationFound(e) {
