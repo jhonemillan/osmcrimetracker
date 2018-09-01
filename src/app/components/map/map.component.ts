@@ -55,7 +55,7 @@ export class MapComponent implements OnInit {
   }
 
   onLocationFound(e) {
-    const marker1 = L.marker([e.latitude, e.longitude], { icon: this.myIcon});
+    const marker1 = L.marker([e.latitude, e.longitude], { icon: this.myIcon});   
     marker1.addTo(this.map);
     this.map.setZoom(16);
     console.log('se agrego el marker', e);
@@ -67,8 +67,22 @@ onLocationError(e) {
 
 onClickMap(e) {
   const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.myIcon});
-  marker1.addTo(this.map);
-  console.log('clic', e.latlng);
+  marker1.bindPopup('<fieldset class="clearfix input-pill pill mobile-cols">' +
+  '<input type="text" id="message" class="col9" />' +  
+  '</fieldset>');
+  marker1.addTo(this.map).openPopup();
+  
+var copy;
+var input = L.DomUtil.get('message');
+
+// When text is entered before dragend.
+input.addEventListener('keypress', function(e) {
+  if (e.keyCode === 13) {    
+    copy  = input.value;
+  }
+});
+
+
 }
 
 getUser(){
