@@ -11,7 +11,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { MapComponent } from './components/map/map.component';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,6 +27,7 @@ import { HeaderComponent } from './components/header/header.component';
     MatToolbarModule,
     MatButtonModule,
     MatDialogModule,
+    HttpClientModule,
     LeafletModule.forRoot(),
     AppRoutingModule
   ],

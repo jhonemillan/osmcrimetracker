@@ -1,3 +1,5 @@
+import { Point } from './../../model/point';
+import { OperationsService } from './../../services/operations.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -22,10 +24,11 @@ export class MapComponent implements OnInit {
     shadowUrl: '../assets/leaflet/images/marker-shadow.png'
   });
   map;
-
+  
   constructor(private location: Location,
               private auth: AuthenticationService,
-              private route:  ActivatedRoute) {
+              private route:  ActivatedRoute,
+              private operations: OperationsService) {
                this.getUser();
                 
               }
@@ -72,17 +75,29 @@ onClickMap(e) {
   '</fieldset>');
   marker1.addTo(this.map).openPopup();
   
-var copy;
+var comment;
 var input = L.DomUtil.get('message');
 
 // When text is entered before dragend.
 input.addEventListener('keypress', function(e) {
   if (e.keyCode === 13) {    
-    copy  = input.value;
+    comment  = input.value;
+    
   }
 });
+this.savePointInDB(marker1,comment);
 
+}
 
+savePointInDB(marker,comment){
+  let newPoint: Point = {
+    userd_id : this.id.toString(),
+    comment: localStorage.getItem('comment'),
+    geolocation: marker.toGeoJSON()
+  }
+
+  console.log(newPoint);
+  localStorage.removeItem('comment');
 }
 
 getUser(){
