@@ -68,25 +68,29 @@ onLocationError(e) {
   console.log(e.message);
 }
 
-onClickMap(e) {
+onClickMap(e) {  
   const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.myIcon});
-  marker1.bindPopup('<fieldset class="clearfix input-pill pill mobile-cols">' +
-  '<input type="text" id="message" class="col9" />' +  
+  marker1.bindPopup('<fieldset>' +
+  '<input type="text" id="message"/>' + 
+  '<input type="lat" id="message" value = "' +e.latlng.lat +'" hidden/>' +
+  '<input type="lon" id="message" value = "' +e.latlng.lng +'" hidden/>' +
+  '<button id="sendlocation" click="sendDataMarker($event)">Send </button>' + 
   '</fieldset>');
   marker1.addTo(this.map).openPopup();
   
 var comment;
-var input = L.DomUtil.get('message');
-
+let button : HTMLElement = document.getElementById('sendlocation') as HTMLElement;
+button.onclick = this.sendDataMarker;
 // When text is entered before dragend.
-input.addEventListener('keypress', function(e) {
-  if (e.keyCode === 13) {    
-    comment  = input.value;
-    
-  }
-});
-this.savePointInDB(marker1,comment);
 
+
+}
+
+sendDataMarker() {  
+  let message : HTMLInputElement = document.getElementById('message') as HTMLInputElement;  
+  let comment  = message.value;
+  console.log(comment);
+  // this.savePointInDB(marker1,comment);
 }
 
 savePointInDB(marker,comment){
@@ -97,7 +101,7 @@ savePointInDB(marker,comment){
   }
 
   console.log(newPoint);
-  localStorage.removeItem('comment');
+  
 }
 
 getUser(){
