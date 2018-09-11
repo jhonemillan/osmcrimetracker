@@ -4,6 +4,7 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ListenerObject } from '../../Helper/eventchange';
 
 declare let L;
 
@@ -18,9 +19,15 @@ export class MapComponent implements OnInit {
   latitude = 3.401769;
   longitude = -76.539840;
   id: number;
-  email: string;
+  ec: any;
+  email: string;  
   myIcon = L.icon({
     iconUrl: 'assets/leaflet/images/marker-icon.png',
+    shadowUrl: '../assets/leaflet/images/marker-shadow.png'
+  });
+
+  IconDanger = L.icon({
+    iconUrl: 'assets/leaflet/images/pirates.png',
     shadowUrl: '../assets/leaflet/images/marker-shadow.png'
   });
   map;
@@ -69,38 +76,43 @@ onLocationError(e) {
 }
 
 onClickMap(e) {  
-  const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.myIcon});
+  let count = 1;
+  const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.IconDanger});
   marker1.bindPopup('<fieldset>' +
-  '<input type="text" id="message"/>' + 
-  '<input type="lat" id="message" value = "' +e.latlng.lat +'" hidden/>' +
-  '<input type="lon" id="message" value = "' +e.latlng.lng +'" hidden/>' +
-  '<button id="sendlocation" click="sendDataMarker($event)">Send </button>' + 
+  '<input type="text" id="message"/>' +   
+  '<button id="sendlocation">Send </button>' + 
   '</fieldset>');
   marker1.addTo(this.map).openPopup();
-  
-var comment;
-let button : HTMLElement = document.getElementById('sendlocation') as HTMLElement;
-button.onclick = this.sendDataMarker;
-// When text is entered before dragend.
 
+let button : HTMLElement = document.getElementById('sendlocation') as HTMLElement;
+  
+button.onclick = ()=>{
+                    console.log('test');
+                    let message : HTMLInputElement = document.getElementById('message') as HTMLInputElement;  
+                    let comment  = message.value;  
+                    this.savePointInDB(marker1 ,comment);
+                  }
 
 }
 
 sendDataMarker() {  
+ 
   let message : HTMLInputElement = document.getElementById('message') as HTMLInputElement;  
-  let comment  = message.value;
-  console.log(comment);
-  // this.savePointInDB(marker1,comment);
+  let comment  = message.value;  
+  this.savePointInDB(this.ec.getMarker() ,comment);
 }
 
 savePointInDB(marker,comment){
   let newPoint: Point = {
     userd_id : this.id.toString(),
-    comment: localStorage.getItem('comment'),
+    comment: comment,
     geolocation: marker.toGeoJSON()
   }
 
-  console.log(newPoint);
+  this.operations.addPoint(newPoint).subscribe(res=>{
+    console.log(res);
+    
+  })
   
 }
 

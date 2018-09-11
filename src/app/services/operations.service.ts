@@ -9,11 +9,11 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class OperationsService {
   point: any;
-
+  
   constructor(private http: HttpClient) { }
 
   addPoint(point: Point):Observable<Point>{
-    return this.http.post<Point>('/map/add', point);
+    return this.http.post<Point>('http://localhost:3000/map/add', point);
   }
 
   private handleError(error: HttpErrorResponse) {
