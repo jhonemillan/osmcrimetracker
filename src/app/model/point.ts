@@ -1,7 +1,7 @@
 import * as geojson from 'geojson';
 
 export interface Point{
-    userd_id: string;
+    user_id: string;
     comment: string;
     geolocation: geojson.Point
 }

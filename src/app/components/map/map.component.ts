@@ -30,6 +30,7 @@ export class MapComponent implements OnInit {
     iconUrl: 'assets/leaflet/images/pirates.png',
     shadowUrl: '../assets/leaflet/images/marker-shadow.png'
   });
+  
   map;
   
   constructor(private location: Location,
@@ -78,10 +79,11 @@ onLocationError(e) {
 onClickMap(e) {  
   let count = 1;
   const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.IconDanger});
-  marker1.bindPopup('<fieldset>' +
-  '<input type="text" id="message"/>' +   
-  '<button id="sendlocation">Send </button>' + 
-  '</fieldset>');
+  var popup = L.popup()
+    .setLatLng(e.latlng)
+    .setContent('<p><input type="text" id="message"/> <button id="sendlocation">Send </button></p>')
+  
+  marker1.bindPopup(popup);
   marker1.addTo(this.map).openPopup();
 
 let button : HTMLElement = document.getElementById('sendlocation') as HTMLElement;
@@ -91,6 +93,7 @@ button.onclick = ()=>{
                     let message : HTMLInputElement = document.getElementById('message') as HTMLInputElement;  
                     let comment  = message.value;  
                     this.savePointInDB(marker1 ,comment);
+                    button.hidden = true;
                   }
 
 }
@@ -104,15 +107,19 @@ sendDataMarker() {
 
 savePointInDB(marker,comment){
   let newPoint: Point = {
-    userd_id : this.id.toString(),
+    user_id : this.id.toString(),
     comment: comment,
     geolocation: marker.toGeoJSON()
   }
-
+ console.log(newPoint);
   this.operations.addPoint(newPoint).subscribe(res=>{
     console.log(res);
     
   })
+  
+}
+
+getPoints(){
   
 }
 
