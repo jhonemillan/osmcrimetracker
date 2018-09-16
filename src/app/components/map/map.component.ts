@@ -36,7 +36,8 @@ export class MapComponent implements OnInit {
   constructor(private location: Location,
               private auth: AuthenticationService,
               private route:  ActivatedRoute,
-              private operations: OperationsService) {
+              private operations: OperationsService,
+              private zone: NgZone) {
                this.getUser();
                 
               }
@@ -62,7 +63,19 @@ export class MapComponent implements OnInit {
           this.onClickMap(e);
         });
 
+        this.map.on('moveend',(e)=>{
+          this.gettingBounds(e);
+        });
+
         this.auth.login();        
+  }
+
+  gettingBounds(e){
+    this.zone.run(()=>{
+      let bounds = this.map.getBounds();
+      console.log(bounds);
+    });
+
   }
 
   onLocationFound(e) {
