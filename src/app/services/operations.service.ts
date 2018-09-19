@@ -1,19 +1,24 @@
-import { Point } from './../model/point';
+import { Point, PointGeometry, BoundsMap } from './../model/point';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { URLSearchParams } from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OperationsService {
   point: any;
-  
+  baseUrl = 'http://localhost:3000'
   constructor(private http: HttpClient) { }
 
   addPoint(point: Point):Observable<Point>{
     return this.http.post<Point>('http://localhost:3000/map/add', point);
+  }
+
+  getPointsInBounds(bounds: BoundsMap){   
+    return this.http.post(this.baseUrl + '/map/getpoints', bounds );
   }
 
   private handleError(error: HttpErrorResponse) {

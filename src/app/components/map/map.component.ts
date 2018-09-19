@@ -1,4 +1,4 @@
-import { Point } from './../../model/point';
+import { Point,BoundsMap, PointGeometry } from './../../model/point';
 import { OperationsService } from './../../services/operations.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
@@ -72,8 +72,24 @@ export class MapComponent implements OnInit {
 
   gettingBounds(e){
     this.zone.run(()=>{
-      let bounds = this.map.getBounds();
-      console.log(bounds);
+      let southWest: PointGeometry = this.map.getBounds().getSouthWest();
+      let southEast: PointGeometry = this.map.getBounds().getSouthEast();
+      let northWest: PointGeometry = this.map.getBounds().getNorthWest();
+      let northEast: PointGeometry = this.map.getBounds().getNorthEast();
+      let bounds = [southWest, southEast, northEast, northWest];
+      let boundsMap: BoundsMap = {
+        geometry : {
+          type : 'Polygon',
+          coordinates : [[southWest.lng, southWest.lat],
+                         [northEast.lng, northEast.lat]
+                         ]
+        }
+      }     
+     
+     this.operations.getPointsInBounds(boundsMap).subscribe((points)=>{
+       console.log(points);
+     });
+      
     });
 
   }
@@ -129,10 +145,6 @@ savePointInDB(marker,comment){
     console.log(res);
     
   })
-  
-}
-
-getPoints(){
   
 }
 

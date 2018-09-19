@@ -5,3 +5,16 @@ export interface Point{
     comment: string;
     geolocation: geojson.Point
 }
+
+export interface BoundsMap{
+    geometry : {
+        type : 'Polygon',
+        coordinates : [[number, number],                        
+                       [number, number]]
+    }    
+}
+
+export interface PointGeometry{
+    lat: number;
+    lng: number;
+}
