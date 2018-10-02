@@ -10,6 +10,8 @@ export interface BoundsMap{
     geometry : {
         type : 'Polygon',
         coordinates : [[number, number],                        
+                       [number, number],
+                       [number, number],
                        [number, number]]
     }    
 }

@@ -5,6 +5,7 @@ import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ListenerObject } from '../../Helper/eventchange';
+import { EventEmitter } from 'protractor';
 
 declare let L;
 
@@ -32,6 +33,7 @@ export class MapComponent implements OnInit {
   });
   
   map;
+  markersCount = 0;
   
   constructor(private location: Location,
               private auth: AuthenticationService,
@@ -44,31 +46,48 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
 
-     this.map = L.map('map').fitWorld();
+     
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        
+
+        this.zone.runOutsideAngular(() => {
+
+          // Create the map with some reasonable defaults
+          this.map = L.map('map').fitWorld();
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
 
-        this.map.locate({setView: true, maxZoom: 16})
+          this.addListenersEvent();
+    
+        });
+    
+
+        
+        this.auth.login();        
+  }
+
+  private addListenersEvent(){
+    this.map.locate({setView: true, maxZoom: 16})
         .on('locationfound', (e) => {
           this.onLocationFound(e);
         });
 
         this.map.on('locationerror', (e) => {
           this.onLocationError(e);
-        });
-
-        this.map.on('click', (e) => {
-          this.onClickMap(e);
-        });
+        });       
 
         this.map.on('moveend',(e)=>{
           this.gettingBounds(e);
         });
 
-        this.auth.login();        
+        this.map.on('click', (e) => {
+          this.onClickMap(e);
+        });
   }
+
+  
 
   gettingBounds(e){
     this.zone.run(()=>{
@@ -81,7 +100,9 @@ export class MapComponent implements OnInit {
         geometry : {
           type : 'Polygon',
           coordinates : [[southWest.lng, southWest.lat],
-                         [northEast.lng, northEast.lat]
+                         [southEast.lng, southEast.lat],
+                         [northEast.lng, northEast.lat],
+                         [northWest.lng, northWest.lat]
                          ]
         }
       }     
@@ -106,20 +127,20 @@ onLocationError(e) {
 }
 
 onClickMap(e) {  
-  let count = 1;
+  this.markersCount++;
   const marker1 = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.IconDanger});
   var popup = L.popup()
     .setLatLng(e.latlng)
-    .setContent('<p><input type="text" id="message"/> <button id="sendlocation">Send </button></p>')
+    .setContent('<p><input type="text" id="message'+this.markersCount.toString()+'"/> <button id="sendlocation'+this.markersCount.toString()+'">Send </button></p>')
   
   marker1.bindPopup(popup);
   marker1.addTo(this.map).openPopup();
 
-let button : HTMLElement = document.getElementById('sendlocation') as HTMLElement;
+let button : HTMLElement = document.getElementById('sendlocation'+this.markersCount.toString()) as HTMLElement;
   
 button.onclick = ()=>{
                     console.log('test');
-                    let message : HTMLInputElement = document.getElementById('message') as HTMLInputElement;  
+                    let message : HTMLInputElement = document.getElementById('message'+this.markersCount.toString()) as HTMLInputElement;  
                     let comment  = message.value;  
                     this.savePointInDB(marker1 ,comment);
                     button.hidden = true;
