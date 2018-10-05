@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
               private operations: OperationsService,
               private zone: NgZone) {
                this.getUser();
-                
+               this.drawPoints(); 
               }
 
   ngOnInit() {
@@ -105,12 +105,7 @@ export class MapComponent implements OnInit {
                          [northWest.lng, northWest.lat]
                          ]
         }
-      }     
-     
-     this.operations.getPointsInBounds(boundsMap).subscribe((points)=>{
-       console.log(points);
-     });
-      
+      }  
     });
 
   }
@@ -118,8 +113,7 @@ export class MapComponent implements OnInit {
   onLocationFound(e) {
     const marker1 = L.marker([e.latitude, e.longitude], { icon: this.myIcon});   
     marker1.addTo(this.map);
-    this.map.setZoom(16);
-    console.log('se agrego el marker', e);
+    this.map.setZoom(16);    
 }
 
 onLocationError(e) {
@@ -138,38 +132,57 @@ onClickMap(e) {
 
 let button : HTMLElement = document.getElementById('sendlocation'+this.markersCount.toString()) as HTMLElement;
   
-button.onclick = ()=>{
-                    console.log('test');
+button.onclick = ()=>{                    
                     let message : HTMLInputElement = document.getElementById('message'+this.markersCount.toString()) as HTMLInputElement;  
                     let comment  = message.value;  
-                    this.savePointInDB(marker1 ,comment);
-                    button.hidden = true;
+                    this.savePointInDB(e.latlng.lat,e.latlng.lng ,comment);
+                    marker1.closePopup();
                   }
 
 }
 
-sendDataMarker() {  
- 
-  let message : HTMLInputElement = document.getElementById('message') as HTMLInputElement;  
-  let comment  = message.value;  
-  this.savePointInDB(this.ec.getMarker() ,comment);
-}
 
-savePointInDB(marker,comment){
+
+savePointInDB(lat, lng,comment){
+  
   let newPoint: Point = {
     user_id : this.id.toString(),
     comment: comment,
-    geolocation: marker.toGeoJSON()
-  }
- console.log(newPoint);
+    location: {
+      
+          type:'Point',
+          lat: lat,
+          lng: lng
+        
+    }
+    }
+  
+ console.log(newPoint, 'new');
   this.operations.addPoint(newPoint).subscribe(res=>{
-    console.log(res);
-    
-  })
+    console.log(res);    
+   
+  });
+
   
 }
 
-getUser(){
+drawPoints(){
+  this.operations.getAllPoints().subscribe(points=>{
+    console.log(points);
+    points.forEach((item)=>{   
+      console.log(item, 'for');
+      var pointer = L.latLng(item.location.lat, item.location.lng);
+     const marker = L.marker([pointer.lat, pointer.lng], { icon: this.IconDanger});
+     var popup = L.popup()    
+       .setContent('<p>"'+item.comment+'" </p>')
+     
+     marker.bindPopup(popup);
+     marker.addTo(this.map);
+    });    
+  });
+}
+
+getUser(){  
   this.id = +this.route.snapshot.paramMap.get('id');
     
   if (this.id != null) {

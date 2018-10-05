@@ -17,8 +17,8 @@ export class OperationsService {
     return this.http.post<Point>('http://localhost:3000/map/add', point);
   }
 
-  getPointsInBounds(bounds: BoundsMap){   
-    return this.http.post(this.baseUrl + '/map/getpoints', bounds );
+  getAllPoints(): Observable<Point[]>{   
+    return this.http.get<Point[]>(this.baseUrl + '/map/all' );
   }
 
   private handleError(error: HttpErrorResponse) {

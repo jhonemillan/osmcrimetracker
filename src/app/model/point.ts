@@ -3,8 +3,13 @@ import * as geojson from 'geojson';
 export interface Point{
     user_id: string;
     comment: string;
-    geolocation: geojson.Point
-}
+    location: {                
+            type:string,
+            lat: number,
+            lng: number         
+      }
+    }
+
 
 export interface BoundsMap{
     geometry : {
