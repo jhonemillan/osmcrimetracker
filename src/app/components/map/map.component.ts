@@ -2,10 +2,10 @@ import { Point,BoundsMap, PointGeometry } from './../../model/point';
 import { OperationsService } from './../../services/operations.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
-import { ListenerObject } from '../../Helper/eventchange';
-import { EventEmitter } from 'protractor';
+import { switchMap, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 declare let L;
 
@@ -19,7 +19,7 @@ export class MapComponent implements OnInit {
   title = 'app';
   latitude = 3.401769;
   longitude = -76.539840;
-  id: number;
+  id: Observable<string>;
   ec: any;
   email: string;  
   myIcon = L.icon({
@@ -38,10 +38,11 @@ export class MapComponent implements OnInit {
   constructor(private location: Location,
               private auth: AuthenticationService,
               private route:  ActivatedRoute,
+              private router: Router,
               private operations: OperationsService,
-              private zone: NgZone) {
-               this.getUser();
-               this.drawPoints(); 
+              private zone: NgZone) {             
+                              
+               this.drawPoints();
               }
 
   ngOnInit() {
@@ -62,10 +63,14 @@ export class MapComponent implements OnInit {
           this.addListenersEvent();
     
         });
-    
 
-        
         this.auth.login();        
+        let _id;
+
+        this.route.paramMap.subscribe(params=>{
+          localStorage.setItem('id',params.get('id'));
+          //this.getUser();
+        }); 
   }
 
   private addListenersEvent(){
@@ -183,10 +188,15 @@ drawPoints(){
 }
 
 getUser(){  
-  this.id = +this.route.snapshot.paramMap.get('id');
+  this.operations.getUser().subscribe(user=>{
+    console.log(user);
+  })
+
+  
+  
     
   if (this.id != null) {
-      localStorage.setItem('id', JSON.stringify(this.id));
+      
     }else{
       this.id = JSON.parse(localStorage.getItem('id'));
     }

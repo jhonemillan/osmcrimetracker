@@ -1,110 +1,33 @@
-
 <div class="container">
-    <div class="kpx_login">        
-        <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-facebook" data-toggle="tooltip" data-placement="top" title="Facebook">
-              <i class="fa fa-facebook fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-twitter" data-toggle="tooltip" data-placement="top" title="Twitter">
-              <i class="fa fa-twitter fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>  
-          <div class="col-xs-2 col-sm-2">
-            <a href="http://localhost:3000/auth/google" class="btn btn-lg btn-block kpx_btn-google-plus" data-toggle="tooltip" (click) = 'login()' data-placement="top" title="Google Plus">
-              <i class="fa fa-google-plus fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>  
-    </div><br>
-
-    <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-github" data-toggle="tooltip" data-placement="top" title="GitHub">
-              <i class="fa fa-github fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-soundcloud" data-toggle="tooltip" data-placement="top" title="SoundCloud">
-              <i class="fa fa-soundcloud fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>  
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-steam" data-toggle="tooltip" data-placement="top" title="Steam">
-              <i class="fa fa-steam fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div> 
-    </div><br>
-    <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-pinterest" data-toggle="tooltip" data-placement="top" title="Pinterest">
-              <i class="fa fa-pinterest fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-vimeo" data-toggle="tooltip" data-placement="top" title="Vimeo">
-              <i class="fa fa-vimeo-square fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>  
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-lastfm" data-toggle="tooltip" data-placement="top" title="Lastfm">
-              <i class="fa fa-lastfm fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div> 
-    </div><br>
-    <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-yahoo" data-toggle="tooltip" data-placement="top" title="Yahoo">
-              <i class="fa fa-yahoo fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-vk" data-toggle="tooltip" data-placement="top" title="VKontakte">
-              <i class="fa fa-vk fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>  
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-spotify" data-toggle="tooltip" data-placement="top" title="Spotify">
-              <i class="fa fa-spotify fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div> 
-    </div><br>
-    <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-linkedin" data-toggle="tooltip" data-placement="top" title="LinkedIn">
-              <i class="fa fa-linkedin fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-stumbleupon" data-toggle="tooltip" data-placement="top" title="Stumble Upon">
-              <i class="fa fa-stumbleupon fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div>  
-          <div class="col-xs-2 col-sm-2">
-            <a href="#" class="btn btn-lg btn-block kpx_btn-tumblr" data-toggle="tooltip" data-placement="top" title="Tumblr">
-              <i class="fa fa-tumblr fa-2x"></i>
-              <span class="hidden-xs"></span>
-            </a>
-          </div> 
-    </div>	
-	</div>
-</div>    
-
-
+<div class="row">
+  
+</div>
+  <form class="col-md-12">
+    <div class="row text-center">
+        <div class="col-md-4 col-sm-12">
+            <button type="button" class="btn btn-primary btn-block">Facebook</button>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <button type="button" class="btn btn-info btn-block">Twitter</button>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <button type="button" onclick="location.href='http://localhost:3000/auth/google';" class="btn btn-danger btn-block">Google+</button>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <input type="text" class="form-control input-lg" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control input-lg" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control input-lg" placeholder="Confirm Password">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary btn-lg btn-block">Sign In</button>
+    </div>
+  </form>
+</div>
 
       

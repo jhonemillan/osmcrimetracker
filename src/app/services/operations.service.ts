@@ -21,6 +21,10 @@ export class OperationsService {
     return this.http.get<Point[]>(this.baseUrl + '/map/all' );
   }
 
+  getUser(): Observable<any>{
+    return this.http.get(this.baseUrl + '/auth/getuser');
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
