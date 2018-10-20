@@ -3,6 +3,7 @@ import * as geojson from 'geojson';
 export interface Point{
     user_id: string;
     comment: string;
+    date: Date;
     location: {                
             type:string,
             lat: number,

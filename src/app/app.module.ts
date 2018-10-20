@@ -12,6 +12,8 @@ import { MapComponent } from './components/map/map.component';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     HeaderComponent
   ],
-  imports: [
+  imports: [    
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
     MatDialogModule,
     HttpClientModule,
+    MatSnackBarModule,
     LeafletModule.forRoot(),
     AppRoutingModule
   ],

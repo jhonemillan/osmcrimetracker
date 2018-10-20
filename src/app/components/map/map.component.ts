@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 declare let L;
 
@@ -17,8 +18,8 @@ declare let L;
 export class MapComponent implements OnInit {
 
   title = 'app';
-  latitude = 3.401769;
-  longitude = -76.539840;
+  latitude;
+  longitude;
   id: Observable<string>;
   ec: any;
   email: string;  
@@ -40,36 +41,28 @@ export class MapComponent implements OnInit {
               private route:  ActivatedRoute,
               private router: Router,
               private operations: OperationsService,
-              private zone: NgZone) {             
+              private zone: NgZone,
+              public snackBar: MatSnackBar) {             
                               
                this.drawPoints();
               }
 
   ngOnInit() {
-
-     
-
-        
-
         this.zone.runOutsideAngular(() => {
-
-          // Create the map with some reasonable defaults
+          this.getGeoLocation();
           this.map = L.map('map').fitWorld();
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(this.map);
 
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.map);
-
-          this.addListenersEvent();
-    
+          this.addListenersEvent();    
         });
 
         this.auth.login();        
         let _id;
 
         this.route.paramMap.subscribe(params=>{
-          localStorage.setItem('id',params.get('id'));
-          //this.getUser();
+          localStorage.setItem('id',params.get('id'));          
         }); 
   }
 
@@ -146,40 +139,32 @@ button.onclick = ()=>{
 
 }
 
-
-
-savePointInDB(lat, lng,comment){
-  
+savePointInDB(lat, lng,comment){ 
   let newPoint: Point = {
-    user_id : this.id.toString(),
-    comment: comment,
-    location: {
-      
-          type:'Point',
-          lat: lat,
-          lng: lng
-        
-    }
-    }
-  
- console.log(newPoint, 'new');
+                user_id : localStorage.getItem("id"),
+                comment: comment,
+                date: new Date(),
+                  location: {      
+                        type:'Point',
+                        lat: lat,
+                        lng: lng        
+                  }
+                } 
+ 
   this.operations.addPoint(newPoint).subscribe(res=>{
-    console.log(res);    
+    this.openSnackBar("Your report has been saved",""); 
    
-  });
-
-  
+  });  
 }
 
 drawPoints(){
   this.operations.getAllPoints().subscribe(points=>{
-    console.log(points);
-    points.forEach((item)=>{   
-      console.log(item, 'for');
+    points.forEach((item)=>{         
       var pointer = L.latLng(item.location.lat, item.location.lng);
      const marker = L.marker([pointer.lat, pointer.lng], { icon: this.IconDanger});
      var popup = L.popup()    
-       .setContent('<p>"'+item.comment+'" </p>')
+       .setContent('<div class="alert alert-primary" role="alert"><strong>'+new Date(item.date).toLocaleDateString()+'</strong><br>'+item.comment+'</div>'
+       )
      
      marker.bindPopup(popup);
      marker.addTo(this.map);
@@ -187,19 +172,29 @@ drawPoints(){
   });
 }
 
-getUser(){  
-  this.operations.getUser().subscribe(user=>{
-    console.log(user);
-  })
+getGeoLocation(){
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.SetLocation(position);
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
 
-  
-  
-    
-  if (this.id != null) {
-      
-    }else{
-      this.id = JSON.parse(localStorage.getItem('id'));
-    }
+SetLocation(position){
+  this.latitude = position.coords.latitude;
+  this.longitude = position.coords.longitude;
+}
+
+ErrorLocation(){
+  this.openSnackBar("Error trying to get coords","undo")
+}
+
+openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, "", {
+      duration: 2000,
+    });
 }
 
 

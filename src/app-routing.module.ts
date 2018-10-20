@@ -8,10 +8,10 @@ import { HomeComponent } from './app/components/home/home.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: SocialauthComponent},  
-  { path: 'map', component: MapComponent},
-  { path: 'map/:id', component: MapComponent},
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'login', component: SocialauthComponent, pathMatch: 'full'},  
+  { path: 'map', component: MapComponent, pathMatch: 'full'},
+  { path: 'map/:id', component: MapComponent, pathMatch: 'full'},
   
 ]
 
