@@ -10,7 +10,8 @@ import { URLSearchParams } from '@angular/http';
 })
 export class OperationsService {
   point: any;
-  baseUrl = 'http://localhost:3000'
+  //baseUrl = 'http://localhost:3000'
+  baseUrl = ''
   constructor(private http: HttpClient) { }
 
   addPoint(point: Point):Observable<Point>{
